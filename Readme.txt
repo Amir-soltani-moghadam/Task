@@ -1,6 +1,5 @@
-﻿
-اجرا برنامه 
----------------------------------------------------------
+﻿Task Management API - راهنمای سریع
+
 .NET 9 SDK
 SQL Server
 IDE = {Visual Studio 2022 - VS Code }
@@ -9,84 +8,94 @@ Test API = {Swagger UI - Postman - curl }
 ورژن پروژه :   ASP.NET Core 9
 معماری : **CQRS**، **MediatR** و **Unit of Work**
 ارتباط دیتابیس : EF Core و Dapper
-
 ---------------------------------------------------------
-متد ها
+ویژگی‌ها:
 
-https://a-soltani.ir:8443/api/SalaryCalculation/GetSalaryCalculation/{fromDate}/{toDate}?datatype={datatype} =  دریافت بازه محاسبه حقوق
+* CQRS + MediatR
+* Unit of Work
+* EF Core + Dapper
+* محاسبه اضافه‌کار:
 
-https://a-soltani.ir:8443/api/SalaryCalculation/GetSalaryCalculation/{id}?datatype={datatype}  = دریافت یک رکورد مشخص
+  * CalculatorA: 10%
+  * CalculatorB: 15%
+  * CalculatorC: 20%
+* فرمت ورودی: JSON, XML, CSV, Custom
+* مستندات Swagger / NSwag
+* AutoMapper برای Map کردن DTO و Entity
+* اعتبارسنجی با FluentValidation
 
-https://a-soltani.ir:8443/api/SalaryCalculation/CreateSalaryCalculation?datatype={datatype}  = ایجاد رکورد جدید
-فرمت ورودی داده: json, xml, csv یا custom
+پکیج‌های استفاده شده:
+MediatR
+MediatR.Extensions.Microsoft.DependencyInjection
+Microsoft.AspNetCore.OpenApi
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.Tools
+NSwag.AspNetCore
+NSwag.Generation.AspNetCore
+AutoMapper.Extensions.Microsoft.DependencyInjection
+FluentValidation.DependencyInjectionExtensions
+Dapper
+Microsoft.Data.SqlClient
+Microsoft.Extensions.Configuration.Abstractions
+Microsoft.Extensions.Options.ConfigurationExtensions
 
-نمونه Body Request :
+پیش‌نیازها:
+
+* Windows 10/11 یا Windows Server
+* Docker Desktop با WSL2
+* .NET 9 SDK (اختیاری، فقط برای build محلی)
+
+Docker:
+ساخت و اجرا:
+
+```
+docker build -t taskmanagementapi:latest .
+docker run -d -p 8080:8080 -p 8443:8443 taskmanagementapi:latest
+```
+
+بعد از اجرای کانتینر روی سرور تست:
+
+* HTTP: [http://<Server IP>:8080](http://a-soltani.ir:8080)
+* HTTPS: [https://<<Server IP>>:8443](https://a-soltani.ir:8443)
+
+Server Test Demo:
+
+* دریافت بازه حقوق: [https://a-soltani.ir:8080/api/SalaryCalculation/GetSalaryCalculation/{fromDate}/{toDate}?datatype={datatype}]
+* دریافت یک رکورد: [https://a-soltani.ir:8080/api/SalaryCalculation/GetSalaryCalculation/{id}?datatype={datatype}]
+* ایجاد رکورد: [https://a-soltani.ir:8080/api/SalaryCalculation/CreateSalaryCalculation?datatype={datatype}]
+* بروزرسانی رکورد: [https://a-soltani.ir:8080/api/SalaryCalculation/UpdateSalaryCalculation/{id}?datatype={datatype}]
+* حذف رکورد: [https://a-soltani.ir:8080/api/SalaryCalculation/DeleteSalaryCalculation/{id}?datatype={datatype}]
+
+Datatype می‌گه داده‌ها به چه فرمتی باشه: json, xml, csv یا custom.
+
+نمونه DataTye :
 
 json
+
 {
   "data": "[{\"FirstName\":\"Ali\",\"LastName\":\"Ahmadi\",\"BasicSalary\":1200000,\"Allowance\":400000,\"Transportation\":350000,\"Date\":\"14010801\"}]",
   "overTimeCalculator": "CalculatorB"
 }
-----------------------
+
 XML
+
 {
   "data": "<SalaryCalculations><SalaryCalculation><FirstName>Ali</FirstName><LastName>Ahmadi</LastName><BasicSalary>1200000</BasicSalary><Allowance>400000</Allowance><Transportation>350000</Transportation><Date>14010801</Date></SalaryCalculation></SalaryCalculations>",
   "overTimeCalculator": "CalculatorB"
 }
-----------------------
+
 csv
+
 {
   "data": "FirstName,LastName,BasicSalary,Allowance,Transportation,Date\nAli,Ahmadi,1200000,400000,350000,14010801",
   "overTimeCalculator": "CalculatorB"
 }
-----------------------
+
+
 Custom
+
 {
   "data": "FirstName/LastName/BasicSalary/Allowance/Transportation/Date\nAli/Ahmadi/1200000/400000/350000/14010801",
   "overTimeCalculator": "CalculatorB"
 }
-
-
-
-https://a-soltani.ir:8443/api/SalaryCalculation/UpdateSalaryCalculation/{id}?datatype={datatype} = بروزرسانی رکورد
-فرمت ورودی داده: json, xml, csv یا custom
-
-https://a-soltani.ir:8443/api/SalaryCalculation/DeleteSalaryCalculation/{id}?datatype={datatype} =  حذف رکورد
-
---------------------------------------------------------
-## ویژگی‌ها
-
-- معماری **CQRS** با استفاده از **MediatR**  
-- مدیریت تراکنش‌ها با **Unit of Work**  
-- پشتیبانی از **Entity Framework Core** و **Dapper**  
-- محاسبه اضافه‌کار با سه نوع **Calculator**:
-  - `CalculatorA` → ضریب 10%  
-  - `CalculatorB` → ضریب 15%  
-  - `CalculatorC` → ضریب 20%  
-- دریافت و ارسال داده‌ها به فرمت‌های: `JSON`, `XML`, `CSV`, `Custom`  
-- مستند‌سازی API با **Swagger / NSwag**  
-- استفاده از **AutoMapper** برای Map کردن DTO به Entity و بالعکس  
-- اعتبارسنجی داده‌ها با **FluentValidation**  
-- تنظیمات کانکشن دیتابیس از طریق **appsettings.json**
-
-------------------------------------------------------------
-
-## پکیج‌های استفاده شده
-
-- MediatR 13.0.0  
-- MediatR.Extensions.Microsoft.DependencyInjection 11.1.0  
-- Microsoft.AspNetCore.OpenApi 9.0.6  
-- Microsoft.EntityFrameworkCore.Design 9.0.9  
-- Microsoft.EntityFrameworkCore.SqlServer 9.0.9  
-- Microsoft.EntityFrameworkCore.Tools 9.0.9  
-- NSwag.AspNetCore 14.5.0  
-- NSwag.Generation.AspNetCore 14.5.0  
-- AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1  
-- FluentValidation.DependencyInjectionExtensions 12.0.0  
-- Dapper 2.1.66  
-- Microsoft.Data.SqlClient 6.1.1  
-- Microsoft.Extensions.Configuration.Abstractions 9.0.9  
-- Microsoft.Extensions.Options.ConfigurationExtensions 9.0.9  
-
-------------------------------------------------------------
-
