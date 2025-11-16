@@ -19,6 +19,35 @@ https://a-soltani.ir:8443/api/SalaryCalculation/GetSalaryCalculation/{id}?dataty
 
 https://a-soltani.ir:8443/api/SalaryCalculation/CreateSalaryCalculation?datatype={datatype}  = ایجاد رکورد جدید
 فرمت ورودی داده: json, xml, csv یا custom
+
+نمونه Body Request :
+
+json
+{
+  "data": "[{\"FirstName\":\"Ali\",\"LastName\":\"Ahmadi\",\"BasicSalary\":1200000,\"Allowance\":400000,\"Transportation\":350000,\"Date\":\"14010801\"}]",
+  "overTimeCalculator": "CalculatorB"
+}
+----------------------
+XML
+{
+  "data": "<SalaryCalculations><SalaryCalculation><FirstName>Ali</FirstName><LastName>Ahmadi</LastName><BasicSalary>1200000</BasicSalary><Allowance>400000</Allowance><Transportation>350000</Transportation><Date>14010801</Date></SalaryCalculation></SalaryCalculations>",
+  "overTimeCalculator": "CalculatorB"
+}
+----------------------
+csv
+{
+  "data": "FirstName,LastName,BasicSalary,Allowance,Transportation,Date\nAli,Ahmadi,1200000,400000,350000,14010801",
+  "overTimeCalculator": "CalculatorB"
+}
+----------------------
+Custom
+{
+  "data": "FirstName/LastName/BasicSalary/Allowance/Transportation/Date\nAli/Ahmadi/1200000/400000/350000/14010801",
+  "overTimeCalculator": "CalculatorB"
+}
+
+
+
 https://a-soltani.ir:8443/api/SalaryCalculation/UpdateSalaryCalculation/{id}?datatype={datatype} = بروزرسانی رکورد
 فرمت ورودی داده: json, xml, csv یا custom
 
