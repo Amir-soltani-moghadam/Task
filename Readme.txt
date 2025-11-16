@@ -11,7 +11,20 @@ Test API = {Swagger UI - Postman - curl }
 ارتباط دیتابیس : EF Core و Dapper
 
 ---------------------------------------------------------
+متد ها
 
+https://a-soltani.ir:8443/api/SalaryCalculation/GetSalaryCalculation/{fromDate}/{toDate}?datatype={datatype} =  دریافت بازه محاسبه حقوق
+
+https://a-soltani.ir:8443/api/SalaryCalculation/GetSalaryCalculation/{id}?datatype={datatype}  = دریافت یک رکورد مشخص
+
+https://a-soltani.ir:8443/api/SalaryCalculation/CreateSalaryCalculation?datatype={datatype}  = ایجاد رکورد جدید
+فرمت ورودی داده: json, xml, csv یا custom
+https://a-soltani.ir:8443/api/SalaryCalculation/UpdateSalaryCalculation/{id}?datatype={datatype} = بروزرسانی رکورد
+فرمت ورودی داده: json, xml, csv یا custom
+
+https://a-soltani.ir:8443/api/SalaryCalculation/DeleteSalaryCalculation/{id}?datatype={datatype} =  حذف رکورد
+
+--------------------------------------------------------
 ## ویژگی‌ها
 
 - معماری **CQRS** با استفاده از **MediatR**  
